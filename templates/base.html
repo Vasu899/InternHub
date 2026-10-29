@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}InternHub{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header class="site-header">
+  <a class="brand" href="{{ url_for('home') }}"><span class="brand-mark">I</span> InternHub</a>
+  <button class="menu-toggle" type="button" aria-label="Toggle navigation" onclick="document.querySelector('.nav-links').classList.toggle('open')">Menu</button>
+  <nav class="nav-links">
+    {% if current_user %}
+      <a href="{{ url_for('dashboard') }}">Dashboard</a>
+      <a href="{{ url_for('internships') }}">Explore</a>
+      <a href="{{ url_for('compare') }}">Compare</a>
+      <a href="{{ url_for('recommendations') }}">For You</a>
+      <a href="{{ url_for('saved') }}">Saved</a>
+      <a href="{{ url_for('applications') }}">Applications</a>
+      <a href="{{ url_for('profile') }}">Profile</a>
+      {% if current_user.is_admin %}<a href="{{ url_for('admin') }}">Admin</a>{% endif %}
+      <a class="nav-cta" href="{{ url_for('logout') }}">Logout</a>
+    {% else %}
+      <a href="{{ url_for('home') }}#about">About</a>
+      <a href="{{ url_for('login') }}">Login</a>
+      <a class="nav-cta" href="{{ url_for('register') }}">Get Started</a>
+    {% endif %}
+  </nav>
+</header>
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}<div class="flash-wrap">{% for category, message in messages %}<div class="flash {{ category }}">{{ message }}</div>{% endfor %}</div>{% endif %}
+{% endwith %}
+<main>
+{% if request.endpoint != 'home' %}
+  <div class="page-back-wrap">
+  {% if current_user %}
+    {% if request.endpoint == 'dashboard' %}
+      <a class="back-link" href="{{ url_for('home') }}">← Back to home</a>
+    {% else %}
+      <a class="back-link" href="{{ url_for('dashboard') }}">← Back to dashboard</a>
+    {% endif %}
+  {% elif request.endpoint == 'forgot_password' %}
+    <a class="back-link" href="{{ url_for('login') }}">← Back to login</a>
+  {% else %}
+    <a class="back-link" href="{{ url_for('home') }}">← Back to home</a>
+  {% endif %}
+  </div>
+{% endif %}
+{% block content %}{% endblock %}</main>
+<footer class="site-footer"><a class="brand footer-brand" href="{{ url_for('home') }}">InternHub</a><span>Find your next learning opportunity.</span></footer>
+<script>
+document.querySelectorAll('[data-password-toggle]').forEach(function(button) {
+  button.addEventListener('click', function() {
+    const input = document.getElementById(button.dataset.passwordToggle);
+    if (!input) return;
+    const visible = input.type === 'password';
+    input.type = visible ? 'text' : 'password';
+    button.textContent = visible ? 'Hide' : 'Show';
+    button.setAttribute('aria-label', visible ? 'Hide password' : 'Show password');
+  });
+});
+</script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

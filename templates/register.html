@@ -1,0 +1,15 @@
+{% extends 'base.html' %}{% block title %}Create Account | InternHub{% endblock %}{% block content %}
+<section class="auth-layout"><div class="auth-side"><span class="eyebrow">GET STARTED</span><h1>Make room for new opportunities.</h1><p>Create an account to find internships, build skills, and track your progress.</p><div class="side-rule"></div><span class="side-small">Your starting point can be anywhere.</span></div>
+<div class="form-panel"><h2>Create your account</h2><p class="muted">A few details to get started.</p><form method="post" class="form-stack">
+<label>Full name<input type="text" name="name" required maxlength="100" autocomplete="name" placeholder="Your name"></label>
+<label>Email address<input type="email" name="email" required autocomplete="email" placeholder="you@example.com"></label>
+<label>Password<div class="password-field"><input id="register-password" type="password" name="password" required minlength="8" autocomplete="new-password" placeholder="At least 8 characters"><button type="button" class="show-password" data-password-toggle="register-password">Show</button></div></label>
+<label>Confirm password<div class="password-field"><input id="confirm-password" type="password" name="confirm_password" required minlength="8" autocomplete="new-password" placeholder="Enter it again"><button type="button" class="show-password" data-password-toggle="confirm-password">Show</button></div></label>
+<p class="muted">Security questions (used if you forget your password)</p>
+<label>What is the nickname your friends call you?<input type="text" name="security_answer_1" required maxlength="200" autocomplete="off" placeholder="Your answer"></label>
+<label>Which subject did you enjoy most in school?<input type="text" name="security_answer_2" required maxlength="200" autocomplete="off" placeholder="Your answer"></label>
+<label>What is the name of your favourite childhood cartoon?<input type="text" name="security_answer_3" required maxlength="200" autocomplete="off" placeholder="Your answer"></label>
+<label>Education status<select name="education_status"><option>Currently studying</option><option>Recently graduated</option><option>Graduated</option></select></label>
+<label>Current year of study <span class="optional">(optional)</span><select name="study_year"><option value="">Choose if applicable</option><option>1st year</option><option>2nd year</option><option>3rd year</option><option>4th year</option><option>Final year</option></select></label>
+<label>Field of interest<select name="field_of_interest"><option>Any field</option><option>IT & Software</option><option>Business</option><option>Design</option><option>Finance</option><option>Marketing</option><option>Data & Analytics</option><option>Content & Writing</option><option>Other</option></select></label>
+<button class="button primary full" type="submit">Create Account</button></form><p class="form-bottom">Already have an account? <a href="{{ url_for('login') }}">Login</a></p></div></section>{% endblock %}
