@@ -1,1 +1,191 @@
-{% extends 'base.html' %}{% block title %}Manage Internships | InternHub{% endblock %}{% block content %}<section class="page-wrap"><div class="page-heading"><div><span class="eyebrow">ADMINISTRATION</span><h1>Manage internships</h1><p>Add, edit, and remove listings shown to students.</p></div></div><form method="post" class="content-panel form-stack admin-form"><h2>{{ 'Edit internship' if editing else 'Add an internship' }}</h2><input type="hidden" name="internship_id" value="{{ editing.id if editing else '' }}"><div class="form-grid"><label>Role title<input name="title" required value="{{ editing.title if editing else '' }}"></label><label>Company<input name="company" required value="{{ editing.company if editing else '' }}"></label><label>Field<select name="field">{% for field in ['IT & Software','Business','Design','Finance','Marketing','Data & Analytics','Content & Writing','Other'] %}<option {% if editing and editing.field==field %}selected{% endif %}>{{ field }}</option>{% endfor %}</select></label><label>Work mode<select name="work_mode">{% for mode in ['Remote','Hybrid','On-site'] %}<option {% if editing and editing.work_mode==mode %}selected{% endif %}>{{ mode }}</option>{% endfor %}</select></label><label>Payment<select name="pay_type">{% for pay in ['Paid','Unpaid','Unspecified'] %}<option {% if editing and editing.pay_type==pay %}selected{% endif %}>{{ pay }}</option>{% endfor %}</select></label><label>Stipend<input name="stipend" placeholder="Not specified" value="{{ editing.stipend if editing else '' }}"></label><label>Location<input name="location" placeholder="Remote / city" value="{{ editing.location if editing else '' }}"></label><label>Duration<input name="duration" placeholder="e.g. 3 months" value="{{ editing.duration if editing else '' }}"></label><label>Deadline<input type="date" name="deadline" value="{{ editing.deadline if editing and editing.deadline else '' }}"></label><label>Application URL<input type="url" name="application_url" required placeholder="https://..." value="{{ editing.application_url if editing else '' }}"></label><label>Required skills<input name="skills" placeholder="Python, SQL, Excel" value="{{ editing.skills if editing else '' }}"></label><label>Eligibility<input name="eligibility" value="{{ editing.eligibility if editing else 'Open to students' }}"></label></div><label>Description<textarea name="description" rows="3" required>{{ editing.description if editing else '' }}</textarea></label><label class="check-label"><input type="checkbox" name="beginner_friendly" {% if editing and editing.beginner_friendly %}checked{% endif %}> Beginner-friendly opportunity</label><button class="button primary" type="submit">{{ 'Save changes' if editing else 'Add internship' }}</button>{% if editing %}<a class="button secondary" href="{{ url_for('admin') }}">Cancel edit</a>{% endif %}</form><div class="section-title-row"><div><span class="eyebrow">CURRENT LISTINGS</span><h2>All internships</h2></div><span class="muted">{{ internships|length }} total</span></div><div class="table-wrap"><table><thead><tr><th>Role</th><th>Company</th><th>Field</th><th>Visibility</th><th>Action</th></tr></thead><tbody>{% for item in internships %}<tr><td>{{ item.title }}</td><td>{{ item.company }}</td><td>{{ item.field }}</td><td>{{ 'Visible' if item.is_active else 'Hidden' }}</td><td><a class="text-link" href="{{ url_for('admin', edit=item.id) }}">Edit</a> {% if item.is_active %}<form method="post" action="{{ url_for('delete_internship', internship_id=item.id) }}" onsubmit="return confirm('Hide this internship listing?')"><button class="small-danger" type="submit">Hide listing</button></form>{% else %}—{% endif %}</td></tr>{% else %}<tr><td colspan="5">No internship listings have been added yet.</td></tr>{% endfor %}</tbody></table></div></section>{% endblock %}
+{% extends 'base.html' %}
+
+{% block title %}
+Manage Internships | InternHub
+{% endblock %}
+
+{% block content %}
+
+<section class="page-wrap">
+
+    <div class="page-heading">
+        <div>
+            <span class="eyebrow">ADMINISTRATION</span>
+            <h1>Manage internships</h1>
+            <p>Add, edit, and remove listings shown to students.</p>
+        </div>
+    </div>
+
+    <form method="post" class="content-panel form-stack admin-form">
+
+        <h2>{{ 'Edit internship' if editing else 'Add an internship' }}</h2>
+
+        <input type="hidden" name="internship_id" value="{{ editing.id if editing else '' }}">
+
+        <div class="form-grid">
+
+            <label>
+                Role title
+                <input name="title" required value="{{ editing.title if editing else '' }}">
+            </label>
+
+            <label>
+                Company
+                <input name="company" required value="{{ editing.company if editing else '' }}">
+            </label>
+
+            <label>
+                Field
+                <select name="field">
+                    {% for field in ['IT & Software','Business','Design','Finance','Marketing','Data & Analytics','Content & Writing','Other'] %}
+                        <option {% if editing and editing.field==field %}selected{% endif %}>
+                            {{ field }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </label>
+
+            <label>
+                Work mode
+                <select name="work_mode">
+                    {% for mode in ['Remote','Hybrid','On-site'] %}
+                        <option {% if editing and editing.work_mode==mode %}selected{% endif %}>
+                            {{ mode }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </label>
+
+            <label>
+                Payment
+                <select name="pay_type">
+                    {% for pay in ['Paid','Unpaid','Unspecified'] %}
+                        <option {% if editing and editing.pay_type==pay %}selected{% endif %}>
+                            {{ pay }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </label>
+
+            <label>
+                Stipend
+                <input name="stipend" placeholder="Not specified" value="{{ editing.stipend if editing else '' }}">
+            </label>
+
+            <label>
+                Location
+                <input name="location" placeholder="Remote / city" value="{{ editing.location if editing else '' }}">
+            </label>
+
+            <label>
+                Duration
+                <input name="duration" placeholder="e.g. 3 months" value="{{ editing.duration if editing else '' }}">
+            </label>
+
+            <label>
+                Deadline
+                <input type="date" name="deadline" value="{{ editing.deadline if editing and editing.deadline else '' }}">
+            </label>
+
+            <label>
+                Application URL
+                <input type="url" name="application_url" required placeholder="https://..." value="{{ editing.application_url if editing else '' }}">
+            </label>
+
+            <label>
+                Required skills
+                <input name="skills" placeholder="Python, SQL, Excel" value="{{ editing.skills if editing else '' }}">
+            </label>
+
+            <label>
+                Eligibility
+                <input name="eligibility" value="{{ editing.eligibility if editing else 'Open to students' }}">
+            </label>
+
+        </div>
+
+        <label>
+            Description
+            <textarea name="description" rows="3" required>{{ editing.description if editing else '' }}</textarea>
+        </label>
+
+        <label class="check-label">
+            <input type="checkbox" name="beginner_friendly" {% if editing and editing.beginner_friendly %}checked{% endif %}>
+            Beginner-friendly opportunity
+        </label>
+
+        <button class="button primary" type="submit">
+            {{ 'Save changes' if editing else 'Add internship' }}
+        </button>
+
+        {% if editing %}
+            <a class="button secondary" href="{{ url_for('admin') }}">
+                Cancel edit
+            </a>
+        {% endif %}
+
+    </form>
+
+    <div class="section-title-row">
+        <div>
+            <span class="eyebrow">CURRENT LISTINGS</span>
+            <h2>All internships</h2>
+        </div>
+        <span class="muted">{{ internships|length }} total</span>
+    </div>
+
+    <div class="table-wrap">
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Role</th>
+                    <th>Company</th>
+                    <th>Field</th>
+                    <th>Visibility</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for item in internships %}
+                    <tr>
+                        <td>{{ item.title }}</td>
+                        <td>{{ item.company }}</td>
+                        <td>{{ item.field }}</td>
+                        <td>{{ 'Visible' if item.is_active else 'Hidden' }}</td>
+
+                        <td>
+                            <a class="text-link" href="{{ url_for('admin', edit=item.id) }}">
+                                Edit
+                            </a>
+
+                            {% if item.is_active %}
+                                <form method="post" action="{{ url_for('delete_internship', internship_id=item.id) }}" onsubmit="return confirm('Hide this internship listing?')">
+                                    <button class="small-danger" type="submit">
+                                        Hide listing
+                                    </button>
+                                </form>
+                            {% else %}
+                                —
+                            {% endif %}
+                        </td>
+                    </tr>
+
+                {% else %}
+                    <tr>
+                        <td colspan="5">No internship listings have been added yet.</td>
+                    </tr>
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+{% endblock %}
