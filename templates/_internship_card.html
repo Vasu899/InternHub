@@ -1,1 +1,47 @@
-<article class="internship-card"><div class="card-topline"><span class="field-tag">{{ item.field }}</span>{% if item.beginner_friendly %}<span class="beginner-tag">Beginner friendly</span>{% endif %}</div><h3><a href="{{ url_for('internship_details', internship_id=item.id) }}">{{ item.title }}</a></h3><p class="company-name">{{ item.company }}</p><p class="card-description">{{ item.description[:125] }}{% if item.description|length > 125 %}…{% endif %}</p><div class="card-meta"><span>{{ item.work_mode }}</span><span>{{ item.pay_type }}</span></div><div class="card-bottom"><div><a class="text-link" href="{{ url_for('internship_details', internship_id=item.id) }}">View details <span>→</span></a><br><a class="text-link" href="{{ url_for('compare', id=item.id) }}">Compare</a></div><form method="post" action="{{ url_for('save_internship', internship_id=item.id) }}"><input type="hidden" name="action" value="{{ 'remove' if request.endpoint == 'saved' else 'save' }}"><button class="icon-button" type="submit">{{ 'Remove from saved' if request.endpoint == 'saved' else 'Save' }}</button></form></div></article>
+<article class="internship-card">
+
+    <div class="card-topline">
+        <span class="field-tag">{{ item.field }}</span>
+        {% if item.beginner_friendly %}
+            <span class="beginner-tag">Beginner friendly</span>
+        {% endif %}
+    </div>
+
+    <h3>
+        <a href="{{ url_for('internship_details', internship_id=item.id) }}">
+            {{ item.title }}
+        </a>
+    </h3>
+
+    <p class="company-name">{{ item.company }}</p>
+
+    <p class="card-description">
+        {{ item.description[:125] }}{% if item.description|length > 125 %}…{% endif %}
+    </p>
+
+    <div class="card-meta">
+        <span>{{ item.work_mode }}</span>
+        <span>{{ item.pay_type }}</span>
+    </div>
+
+    <div class="card-bottom">
+        <div>
+            <a class="text-link" href="{{ url_for('internship_details', internship_id=item.id) }}">
+                View details <span>→</span>
+            </a>
+            <br>
+            <a class="text-link" href="{{ url_for('compare', id=item.id) }}">
+                Compare
+            </a>
+        </div>
+
+        <form method="post" action="{{ url_for('save_internship', internship_id=item.id) }}">
+            <input type="hidden" name="action" value="{{ 'remove' if request.endpoint == 'saved' else 'save' }}">
+
+            <button class="icon-button" type="submit">
+                {{ 'Remove from saved' if request.endpoint == 'saved' else 'Save' }}
+            </button>
+        </form>
+    </div>
+
+</article>
