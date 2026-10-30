@@ -1,6 +1,70 @@
-{% extends 'base.html' %}{% block title %}Login | InternHub{% endblock %}{% block content %}
-<section class="auth-layout"><div class="auth-side"><span class="eyebrow">WELCOME BACK</span><h1>Your next opportunity is waiting.</h1><p>Log in to explore internships and keep your plans in one place.</p><div class="side-rule"></div><span class="side-small">Explore. Learn. Move forward.</span></div>
-<div class="form-panel"><h2>Login</h2><p class="muted">Enter your account details to continue.</p><form method="post" class="form-stack">
-<label>Email address<input type="email" name="email" required autocomplete="email" placeholder="you@example.com"></label>
-<label>Password<div class="password-field"><input id="login-password" type="password" name="password" required autocomplete="current-password" placeholder="Enter your password"><button type="button" class="show-password" data-password-toggle="login-password">Show</button></div></label>
-<div class="form-meta"><a href="{{ url_for('forgot_password') }}">Forgot password?</a></div><button class="button primary full" type="submit">Login</button></form><p class="form-bottom">New to InternHub? <a href="{{ url_for('register') }}">Create an account</a></p></div></section>{% endblock %}
+{% extends 'base.html' %}
+
+{% block title %}
+Login | InternHub
+{% endblock %}
+
+{% block content %}
+
+<section class="auth-layout">
+
+    <div class="auth-side">
+
+        <span class="eyebrow">WELCOME BACK</span>
+
+        <h1>Your next opportunity is waiting.</h1>
+
+        <p>Log in to explore internships and keep your plans in one place.</p>
+
+        <div class="side-rule"></div>
+
+        <span class="side-small">Explore. Learn. Move forward.</span>
+
+    </div>
+
+    <div class="form-panel">
+
+        <h2>Login</h2>
+
+        <p class="muted">Enter your account details to continue.</p>
+
+        <form method="post" class="form-stack">
+
+            <label>
+                Email address
+                <input type="email" name="email" required autocomplete="email" placeholder="you@example.com">
+            </label>
+
+            <label>
+                Password
+
+                <div class="password-field">
+                    <input id="login-password" type="password" name="password" required autocomplete="current-password" placeholder="Enter your password">
+
+                    <button type="button" class="show-password" data-password-toggle="login-password">
+                        Show
+                    </button>
+                </div>
+
+            </label>
+
+            <div class="form-meta">
+                <a href="{{ url_for('forgot_password') }}">Forgot password?</a>
+            </div>
+
+            <button class="button primary full" type="submit">
+                Login
+            </button>
+
+        </form>
+
+        <p class="form-bottom">
+            New to InternHub?
+            <a href="{{ url_for('register') }}">Create an account</a>
+        </p>
+
+    </div>
+
+</section>
+
+{% endblock %}
