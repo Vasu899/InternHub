@@ -1,1 +1,81 @@
-{% extends 'base.html' %}{% block title %}My Profile | InternHub{% endblock %}{% block content %}<section class="page-wrap narrow-wrap"><div class="page-heading"><div><span class="eyebrow">YOUR DETAILS</span><h1>My profile</h1><p>Keep your information up to date.</p></div></div><form method="post" class="content-panel form-stack"><label>Full name<input name="name" required maxlength="100" value="{{ user.name }}"></label><label>Email address<input value="{{ user.email }}" disabled><small>Email address cannot be changed here.</small></label><label>Education status<select name="education_status">{% for status in ['Currently studying','Recently graduated','Graduated'] %}<option {% if user.education_status==status %}selected{% endif %}>{{ status }}</option>{% endfor %}</select></label><label>Current year of study<select name="study_year"><option value="">Not applicable</option>{% for year in ['1st year','2nd year','3rd year','4th year','Final year'] %}<option {% if user.study_year==year %}selected{% endif %}>{{ year }}</option>{% endfor %}</select></label><label>Field of interest<select name="field_of_interest">{% for field in ['Any field','IT & Software','Business','Design','Finance','Marketing','Data & Analytics','Content & Writing','Other'] %}<option {% if user.field_of_interest==field %}selected{% endif %}>{{ field }}</option>{% endfor %}</select></label><button class="button primary" type="submit">Save changes</button></form></section>{% endblock %}
+{% extends 'base.html' %}
+
+{% block title %}
+My Profile | InternHub
+{% endblock %}
+
+{% block content %}
+
+<section class="page-wrap narrow-wrap">
+
+    <div class="page-heading">
+        <div>
+            <span class="eyebrow">YOUR DETAILS</span>
+            <h1>My profile</h1>
+            <p>Keep your information up to date.</p>
+        </div>
+    </div>
+
+    <form method="post" class="content-panel form-stack">
+
+        <label>
+            Full name
+            <input name="name" required maxlength="100" value="{{ user.name }}">
+        </label>
+
+        <label>
+            Email address
+            <input value="{{ user.email }}" disabled>
+            <small>Email address cannot be changed here.</small>
+        </label>
+
+        <label>
+            Education status
+            <select name="education_status">
+
+                {% for status in ['Currently studying','Recently graduated','Graduated'] %}
+                    <option {% if user.education_status==status %}selected{% endif %}>
+                        {{ status }}
+                    </option>
+                {% endfor %}
+
+            </select>
+        </label>
+
+        <label>
+            Current year of study
+            <select name="study_year">
+
+                <option value="">Not applicable</option>
+
+                {% for year in ['1st year','2nd year','3rd year','4th year','Final year'] %}
+                    <option {% if user.study_year==year %}selected{% endif %}>
+                        {{ year }}
+                    </option>
+                {% endfor %}
+
+            </select>
+        </label>
+
+        <label>
+            Field of interest
+            <select name="field_of_interest">
+
+                {% for field in ['Any field','IT & Software','Business','Design','Finance','Marketing','Data & Analytics','Content & Writing','Other'] %}
+                    <option {% if user.field_of_interest==field %}selected{% endif %}>
+                        {{ field }}
+                    </option>
+                {% endfor %}
+
+            </select>
+        </label>
+
+        <button class="button primary" type="submit">
+            Save changes
+        </button>
+
+    </form>
+
+</section>
+
+{% endblock %}
